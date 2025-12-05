@@ -1,6 +1,7 @@
-import streamlit as st
-from db import create_db_and_tables, get_session
-import crud as crud
+import crud
+from db import create_db_and_tables, engine, get_session
+import models
+
 
 st.set_page_config(page_title="Hospital System", page_icon="🏥", layout="wide")
 
@@ -109,3 +110,4 @@ elif page == "Appointments":
 
     st.subheader("Appointments List")
     st.table(appointments)
+
