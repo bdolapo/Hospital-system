@@ -1,27 +1,26 @@
 from sqlmodel import SQLModel, Field
 from typing import Optional
-from datetime import datetime
+import datetime
 
 
 class Patient(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
     name: str
     age: int
-    gender: str
-    condition: str
-    admission_date: datetime = Field(default_factory=datetime.utcnow)
+    phone: str
+    notes: Optional[str] = None
 
 
 class Doctor(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
     name: str
-    specialization: str
-    years_experience: int
+    specialty: str
+    phone: str
 
 
 class Appointment(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
-    patient_id: int = Field(foreign_key="patient.id")
-    doctor_id: int = Field(foreign_key="doctor.id")
-    date: datetime
-    notes: str
+    patient_id: int
+    doctor_id: int
+    date: str
+    reason: Optional[str] = None
