@@ -1,5 +1,6 @@
-from sqlmodel import select
 import models
+from db import get_session
+
 
 
 def list_patients(session):
@@ -41,4 +42,5 @@ def create_appointment(session, patient_id, doctor_id, date, reason):
     session.commit()
     session.refresh(new)
     return new
+
 
