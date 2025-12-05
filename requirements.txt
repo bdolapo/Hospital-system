@@ -1,0 +1,6 @@
+streamlit>=1.24
+sqlmodel>=0.0.8
+pydantic
+databases
+requests
+python-multipart
