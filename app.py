@@ -1,8 +1,6 @@
 # frontend/streamlit_app.py
 import streamlit as st
 from sqlmodel import Session, select
-from database import create_db_and_tables, engine, get_session
-from models import Patient, Doctor, Appointment
 from datetime import datetime
 import pandas as pd
 import sys
@@ -185,6 +183,7 @@ if menu == "Reports":
     if appts:
         df = pd.DataFrame([{"patient_id":a.patient_id,"doctor_id":a.doctor_id,"date":a.date,"status":a.status} for a in appts])
         st.bar_chart(df["patient_id"].value_counts())
+
 
 
 
