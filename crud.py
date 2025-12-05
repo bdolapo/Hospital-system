@@ -1,50 +1,43 @@
-# backend/crud.py
 from sqlmodel import select
-from sqlmodel import Session
-from .models import Patient, Doctor, Appointment
+from . import models
 
-# NOTE: sessions are created in streamlit app using engine sessionmaker pattern
-# But these helpers accept an active Session.
 
-# Patients
-def create_patient(session: Session, patient: Patient) -> Patient:
-    session.add(patient)
+def list_patients(session):
+    return session.exec(select(models.Patient)).all()
+
+
+def create_patient(session, name, age, phone, notes):
+    new = models.Patient(name=name, age=age, phone=phone, notes=notes)
+    session.add(new)
     session.commit()
-    session.refresh(patient)
-    return patient
+    session.refresh(new)
+    return new
 
-def list_patients(session: Session):
-    return session.exec(select(Patient).order_by(Patient.created_at.desc())).all()
 
-def get_patient(session: Session, patient_id: int):
-    return session.get(Patient, patient_id)
+def list_doctors(session):
+    return session.exec(select(models.Doctor)).all()
 
-def delete_patient(session: Session, patient_id: int):
-    p = session.get(Patient, patient_id)
-    if p:
-        session.delete(p)
-        session.commit()
-    return p
 
-# Doctors
-def create_doctor(session: Session, doctor: Doctor) -> Doctor:
-    session.add(doctor)
+def create_doctor(session, name, specialty, phone):
+    new = models.Doctor(name=name, specialty=specialty, phone=phone)
+    session.add(new)
     session.commit()
-    session.refresh(doctor)
-    return doctor
+    session.refresh(new)
+    return new
 
-def list_doctors(session: Session):
-    return session.exec(select(Doctor).order_by(Doctor.name)).all()
 
-# Appointments
-def create_appointment(session: Session, appt: Appointment) -> Appointment:
-    session.add(appt)
+def list_appointments(session):
+    return session.exec(select(models.Appointment)).all()
+
+
+def create_appointment(session, patient_id, doctor_id, date, reason):
+    new = models.Appointment(
+        patient_id=patient_id,
+        doctor_id=doctor_id,
+        date=date,
+        reason=reason
+    )
+    session.add(new)
     session.commit()
-    session.refresh(appt)
-    return appt
-
-def list_appointments(session: Session):
-    return session.exec(select(Appointment).order_by(Appointment.date.desc())).all()
-
-def list_appointments_for_patient(session: Session, patient_id: int):
-    return session.exec(select(Appointment).where(Appointment.patient_id == patient_id).order_by(Appointment.date.desc())).all()
+    session.refresh(new)
+    return new
