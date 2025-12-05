@@ -10,7 +10,7 @@ sys.path.append(os.path.abspath(".."))
 st.set_page_config(page_title="Hospital System", layout="wide", page_icon="🏥")
 
 # ----- Ensure DB exists -----
-create_db_and_tables()
+create_database_and_tables()
 
 # ----- Load CSS -----
 def local_css(file_name):
@@ -183,6 +183,7 @@ if menu == "Reports":
     if appts:
         df = pd.DataFrame([{"patient_id":a.patient_id,"doctor_id":a.doctor_id,"date":a.date,"status":a.status} for a in appts])
         st.bar_chart(df["patient_id"].value_counts())
+
 
 
 
