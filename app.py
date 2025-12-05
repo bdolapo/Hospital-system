@@ -43,9 +43,12 @@ if menu == "Overview":
     with col3:
         st.markdown('<div class="card" style="background:#fff;"><h3>Stats</h3>', unsafe_allow_html=True)
         with Session(engine) as s:
-            pcount = s.exec(select(models.Patient)).count()
-            dcount = s.exec(select(models.Doctor)).count()
-            acount = s.exec(select(models.Appointment)).count()
+            pcount = s.exec(select(models.Patient)).all()
+            pcount=len(pcount)
+            dcount = s.exec(select(models.Doctor)).all()
+            dcount=len(dcount)
+            acount = s.exec(select(models.Appointment)).all()
+            acount=len(acount)
         st.metric("Patients", pcount, delta=None)
         st.metric("Doctors", dcount, delta=None)
         st.metric("Appointments", acount, delta=None)
@@ -183,6 +186,7 @@ if menu == "Reports":
     if appts:
         df = pd.DataFrame([{"patient_id":a.patient_id,"doctor_id":a.doctor_id,"date":a.date,"status":a.status} for a in appts])
         st.bar_chart(df["patient_id"].value_counts())
+
 
 
 
